@@ -1,7 +1,8 @@
 from . import models
 
 
-author = ""
+author_name = ""
+author = Author.objects.get(name=author_name)
 result = models.Book.objects.filter(author=author)
 
 library_name = ""
