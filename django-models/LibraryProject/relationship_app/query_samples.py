@@ -10,4 +10,4 @@ l = models.Library.objects.get(name=library_name)
 result = l.books.all()
 
 librarian = l.librarian.get()
-librarian = models.Librarian.objects.filter(library=library_name)
+librarian = models.Librarian.objects.get(library=library_name)
