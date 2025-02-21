@@ -1,12 +1,14 @@
 from . import models
 
-b= models.Book.objects.get(pk=1)
+
+book_title = "b"
+b= models.Book.objects.get(title=book_title)
 b_by_author = b.author_set.all()
 
-
-l = models.Library.objects.get(pk=1)
+library_name = "a"
+l = models.Library.objects.get(name=library_name)
 b_in_lib = l.books_set.all()
 
-
-lib = models.Librarian.objects.get(pk=1)
+librarian_name = "s"
+lib = models.Librarian.objects.get(name=librarian_name)
 libn_for_lib = lib.library_set.all()
