@@ -1,8 +1,8 @@
 from . import models
 
 
-author = ""
-a = models.Author.objects.get(name=author)
+author_name = ""
+a = models.Author.objects.get(name=author_name)
 result = a.books.all()
 
 library_name = ""
