@@ -45,7 +45,7 @@ def register(request):
 """
 
 
-# ✅ User Registration View    
+# User Registration View    
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
