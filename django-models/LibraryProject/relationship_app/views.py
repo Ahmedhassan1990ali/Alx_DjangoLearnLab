@@ -80,7 +80,7 @@ def member_view(request):
 
 ###########################################
 
-@permission_required("relationship_app.canaddbook")
+@permission_required("relationship_app.can_add_book")
 def add_book(request):
     if request.method == "POST":
         Book.objects.create(
@@ -90,7 +90,7 @@ def add_book(request):
         return redirect("add_book")
     return render(request, "relationship_app/add_book.html")
 
-@permission_required("relationship_app.canchangebook")
+@permission_required("relationship_app.can_change_book")
 def edit_book(request, b_title):
     book = get_object_or_404(Book, title=b_title)
     if request.method == "POST":
@@ -100,7 +100,7 @@ def edit_book(request, b_title):
         return redirect("edit_book")
     return render(request, "relationship_app/edit_book.html", {"book": book})
 
-@permission_required("relationship_app.candeletebook")
+@permission_required("relationship_app.can_delete_book")
 def delete_book(request, b_title):
     book = get_object_or_404(Book, title=b_title)
     if request.method == "POST":
