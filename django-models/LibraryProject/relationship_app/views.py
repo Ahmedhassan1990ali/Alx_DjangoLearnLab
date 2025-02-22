@@ -78,3 +78,42 @@ def Librarian(request):
 def Member(request):
     return render(request, 'relationship_app/member_view.html', {'role': 'Member'})
 
+
+
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import TemplateView
+
+class AdminView(UserPassesTestMixin, TemplateView):
+    template_name = "admin_view.html"
+    login_url = "/custom-login/"  # Optional custom redirect
+
+    def test_func(self):
+        return hasattr(self.request.user, "userprofile") and self.request.user.userprofile.role == "Admin"
+    
+class Admin(UserPassesTestMixin, TemplateView):
+    template_name = "admin_view.html"
+    login_url = "/custom-login/"  # Optional custom redirect
+
+    def test_func(self):
+        return hasattr(self.request.user, "userprofile") and self.request.user.userprofile.role == "Admin"
+    
+class Admin_View(UserPassesTestMixin, TemplateView):
+    template_name = "admin_view.html"
+    login_url = "/custom-login/"  # Optional custom redirect
+
+    def test_func(self):
+        return hasattr(self.request.user, "userprofile") and self.request.user.userprofile.role == "Admin"
+    
+class admin_view(UserPassesTestMixin, TemplateView):
+    template_name = "admin_view.html"
+    login_url = "/custom-login/"  # Optional custom redirect
+
+    def test_func(self):
+        return hasattr(self.request.user, "userprofile") and self.request.user.userprofile.role == "Admin"
+
+class admin(UserPassesTestMixin, TemplateView):
+    template_name = "admin_view.html"
+    login_url = "/custom-login/"  # Optional custom redirect
+
+    def test_func(self):
+        return hasattr(self.request.user, "userprofile") and self.request.user.userprofile.role == "Admin"
