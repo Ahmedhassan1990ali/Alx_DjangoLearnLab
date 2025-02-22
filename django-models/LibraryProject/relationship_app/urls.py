@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import list_books, LibraryDetailView, login_view, logout_view, register
+from .views import list_books, LibraryDetailView
 
 from . import views
 
@@ -26,5 +26,5 @@ urlpatterns = [
     path('library/', LibraryDetailView.as_view(), name='library'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-    path("signup/", register, name="register"),
+    path("signup/", views.register, name="register"),
 ]
