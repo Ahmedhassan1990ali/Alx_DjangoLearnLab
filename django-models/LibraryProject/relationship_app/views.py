@@ -9,7 +9,7 @@ def book_list(request):
     context ={"books":books}
     return render(request, "relationship_app/list_books.html",context)
 
-class Library(DetailView):
+class LibraryDetailView(DetailView):
     model = Library
     template_name = "relationship_app/library_detail.html"
     def get_context_data(self, **kwargs):
