@@ -67,7 +67,7 @@ def is_member(user):
     return user.is_authenticated and getattr(user, 'userprofile', None) and user.userprofile.role == 'Member' 
 
 @user_passes_test(is_admin)
-def Admin(request):
+def Admin_view(request):
     return render(request, 'relationship_app/admin_view.html', {'role': 'Admin'})
 
 @user_passes_test(is_librarian)
