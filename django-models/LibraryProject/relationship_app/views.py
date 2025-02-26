@@ -117,3 +117,17 @@ def logoutview(request):
     logout(request)
     return render(request, 'relationship_app/logout.html')
 
+###########################################
+from django.views import View
+class LogoutView(View):
+    template_name = ""
+    def get(self, request):
+        """Handles logout via GET request."""
+        logout(request)  # Logs out the user
+        return render(request, self.template_name)  # Show a logout page
+
+    #def post(self, request):
+    #    """Handles logout via POST request."""
+    #    logout(request)
+    #    return redirect('/login/')  # Redirect to login after logout
+
