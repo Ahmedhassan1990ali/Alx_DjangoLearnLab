@@ -109,3 +109,11 @@ def delete_book(request, b_title):
         return redirect("home")
     return render(request, "relationship_app/delete_book.html", {"book": book})
 
+
+##########################################
+from django.contrib.auth import logout
+
+def logoutview(request):
+    logout(request)
+    return render(request, 'relationship_app/logout.html')
+
