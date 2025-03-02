@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7l+wg#azrq5jcl=ut#@4z2eo+!l7nra3*e4g5x@7c5=8wx*py$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,3 +129,20 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE  = True
+SESSION_COOKIE_SECURE = True
+
+CSP_DEFAULT_SRC = ("'self'",)  # Allow content from the same origin only
+CSP_SCRIPT_SRC = ("'self'", "https://trusted.cdn.com")  # Allow scripts from self and a trusted CDN
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")  # Allow styles from self and Google Fonts
+CSP_IMG_SRC = ("'self'", "https://images.example.com")  # Allow images from self and a trusted image CDN
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")  # Allow fonts from self and Google Fonts
+CSP_CONNECT_SRC = ("'self'", "https://api.example.com")  # Allow AJAX/fetch requests to self and API
+CSP_FRAME_SRC = ("'self'", "https://www.youtube.com")  # Allow embedding YouTube videos
+CSP_OBJECT_SRC = ("'none'",)  # Block Flash and other embedded objects
+CSP_BASE_URI = ("'none'",)  # Prevent <base> tag injection
+CSP_FORM_ACTION = ("'self'",)  # Allow form submissions only to your site
