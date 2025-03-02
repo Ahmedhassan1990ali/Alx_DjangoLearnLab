@@ -146,3 +146,12 @@ CSP_FRAME_SRC = ("'self'", "https://www.youtube.com")  # Allow embedding YouTube
 CSP_OBJECT_SRC = ("'none'",)  # Block Flash and other embedded objects
 CSP_BASE_URI = ("'none'",)  # Prevent <base> tag injection
 CSP_FORM_ACTION = ("'self'",)  # Allow form submissions only to your site
+
+
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
