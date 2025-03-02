@@ -13,7 +13,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
     class Meta:
-        permissions=[
+        permissions = [
             ("can_view","can view books"),
             ("can_create","can create books"),
             ("can_edit","can edit books"),
