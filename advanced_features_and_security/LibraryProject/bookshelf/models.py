@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.apps import apps
 from django.contrib.auth.hashers import make_password
 # Create your models here.
@@ -13,7 +13,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
 
-class CustomUserManager(UserManager):
+class CustomUserManager(BaseUserManager):
     def _create_user(self, username, email, password, date_of_birth, profile_photo, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
