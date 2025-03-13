@@ -1,10 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Book, Author
-from rest_framework.test import APITestCase
 
-
-class BookTestCase(APITestCase):
+class BookTestCase(TestCase):
     def setUp(self):
         User.objects.create_user(username='testuser', password='testpass')
         self.author1= Author.objects.create(name="aaaa")
