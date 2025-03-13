@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Book, Author
 from rest_framework.test import APITestCase
+from rest_framework import status
 
 
 class BookTestCase(APITestCase):
@@ -17,18 +18,18 @@ class BookTestCase(APITestCase):
     def test_Create_book(self):
         data = {"title": "cc", "author": self.author2.id, "publication_year": 2020}
         response = self.client.post("/api/books/create/", data)
-        print(response.status_code)
+        print(response.data)
         self.assertEqual(response.status_code,201)
 
     def test_Update_book(self):
         data = {"title": "cc", "author": self.author2.id, "publication_year": 2020}
         book_id = Book.objects.get(title="aa").id
         response = self.client.put(f"/api/books/update/{book_id}/", data,content_type="application/json")
-        print(response.status_code)
+        print(response.data)
         self.assertEqual(response.status_code, 200)
 
     def test_Delete_book(self):
         book_id = Book.objects.get(title="aa").id
         response = self.client.delete(f"/api/books/delete/{book_id}/")
-        print(response.status_code)
+        print(response.data)
         self.assertEqual(response.status_code, 204)
