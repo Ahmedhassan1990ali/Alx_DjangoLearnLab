@@ -9,9 +9,9 @@ import django_filters
 # Create your views here.
 
 class BookFilter(django_filters.FilterSet):
-    title = django_filters.Charfilter(lookup_expr='icontains')
-    author = django_filters.Charfilter(lookup_expr='icontains')
-    publication_year = django_filters.Numderfilter(lookup_expr='exact')
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    author = django_filters.CharFilter(lookup_expr='icontains')
+    publication_year = django_filters.NumberFilter(lookup_expr='exact')
     publication_year__gte = django_filters.NumberFilter(field_name='publication_year', lookup_expr='gte')
     publication_year__lte = django_filters.NumberFilter(field_name='publication_year', lookup_expr='lte')
     class Meta:
