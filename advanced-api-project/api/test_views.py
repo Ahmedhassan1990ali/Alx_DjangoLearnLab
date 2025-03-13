@@ -19,17 +19,17 @@ class BookTestCase(APITestCase):
         data = {"title": "cc", "author": self.author2.id, "publication_year": 2020}
         response = self.client.post("/api/books/create/", data)
         print(response.data)
-        self.assertEqual(response.status_code,201)
+        self.assertEqual(response.status_code,status.HTTP_201_CREATED)
 
     def test_Update_book(self):
         data = {"title": "cc", "author": self.author2.id, "publication_year": 2020}
         book_id = Book.objects.get(title="aa").id
         response = self.client.put(f"/api/books/update/{book_id}/", data,content_type="application/json")
         print(response.data)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_Delete_book(self):
         book_id = Book.objects.get(title="aa").id
         response = self.client.delete(f"/api/books/delete/{book_id}/")
         print(response.data)
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
