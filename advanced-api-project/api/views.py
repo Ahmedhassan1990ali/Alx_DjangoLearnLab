@@ -8,7 +8,7 @@ import django_filters
  
 # Create your views here.
 
-class BookFilter(django_filters.Filterset):
+class BookFilter(django_filters.FilterSet):
     title = django_filters.Charfilter(lookup_expr='icontains')
     author = django_filters.Charfilter(lookup_expr='icontains')
     publication_year = django_filters.Numderfilter(lookup_expr='exact')
