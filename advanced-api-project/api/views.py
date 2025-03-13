@@ -14,6 +14,9 @@ class BookFilter(django_filters.Filterset):
     publication_year = django_filters.Numderfilter(lookup_expr='exact')
     publication_year__gte = django_filters.NumberFilter(field_name='publication_year', lookup_expr='gte')
     publication_year__lte = django_filters.NumberFilter(field_name='publication_year', lookup_expr='lte')
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
 
 
 class BookListView(generics.ListAPIView):
