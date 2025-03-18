@@ -23,4 +23,6 @@ urlpatterns = [
     path("logout/",LogoutView.as_view(template_name="blog/logout.html"),name="logout"),
     path("register/",register,name="register"),
     path("profile/",profile,name="profile"),
+    path('a/', profile,name="home"),
+    path('b/', profile,name="posts"),
 ]
