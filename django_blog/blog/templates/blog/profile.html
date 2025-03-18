@@ -5,16 +5,10 @@
 
    
     {% block content %}
-    <h1>User profile</h1>
-    <p>.
-        .
-        .
-        .
-        .
-        .
-        .
-        .
-        .
-        .
-    </p>
+    <h2>Update Your Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
     {% endblock %}
