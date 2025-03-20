@@ -16,13 +16,18 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib.auth.views import LoginView,LogoutView
-from blog.views import register,profile
+from blog.views import register,profile,home, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
 
 urlpatterns = [
     path("login/",LoginView.as_view(template_name="blog/login.html"),name="login"),
     path("logout/",LogoutView.as_view(template_name="blog/logout.html"),name="logout"),
     path("register/",register,name="register"),
     path("profile/",profile,name="profile"),
-    path('a/', profile,name="home"),
-    path('b/', profile,name="posts"),
+    path('', home,name="home"),
+    path('blogposts/', PostListView.as_view(),name="posts"),
+    path('posts/',PostListView.as_view(), name="post_list"),
+    path('posts/<int:pk>/',PostDetailView.as_view(), name="post_detail"),
+    path('posts/new/',PostCreateView.as_view(), name="post_create"),
+    path('posts/<int:pk>/edit/',PostUpdateView.as_view(), name="post_update"),
+    path('posts/<int:pk>/delete/',PostDeleteView.as_view(), name="post_delete"),
 ]
