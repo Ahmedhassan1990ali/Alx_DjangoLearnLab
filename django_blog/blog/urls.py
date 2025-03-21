@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib.auth.views import LoginView,LogoutView
-from blog.views import register,profile,home, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from blog.views import (register,profile,home,
+                PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
+                PostCommentsDetailView, CommentDetailView, CommentUpdateView, CommentDeleteView
+)
 
 urlpatterns = [
     path("login/",LoginView.as_view(template_name="blog/login.html"),name="login"),
@@ -24,10 +27,16 @@ urlpatterns = [
     path("register/",register,name="register"),
     path("profile/",profile,name="profile"),
     path('', home,name="home"),
+    # Post-related paths
     path('blogposts/', PostListView.as_view(),name="posts"),
     path('posts/',PostListView.as_view(), name="post_list"),
-    path('post/<int:pk>/',PostDetailView.as_view(), name="post_detail"),
+    #path('post/<int:pk>/',PostDetailView.as_view(), name="post_detail"),
+    path('post/<int:pk>/',PostCommentsDetailView.as_view(), name="post_detail"),
     path('post/new/',PostCreateView.as_view(), name="post_create"),
     path('post/<int:pk>/update/',PostUpdateView.as_view(), name="post_update"),
     path('post/<int:pk>/delete/',PostDeleteView.as_view(), name="post_delete"),
+    # Comment-related paths
+    path('post/<int:post_id>/comment/<int:pk>/',CommentDetailView.as_view(), name="comment_detail"),
+    path('post/<int:post_id>/comment/<int:pk>/update/',CommentUpdateView.as_view(), name="comment_update"),
+    path('post/<int:post_id>/comment/<int:pk>/delete/',CommentDeleteView.as_view(), name="comment_delete"),
 ]
