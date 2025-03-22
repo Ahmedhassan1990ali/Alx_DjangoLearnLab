@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
@@ -32,7 +32,7 @@ def profile(request):
 
 def home(request):
     user_name = request.user.username
-    return render(request, "blog/home.html",{"user":user_name})
+    return render(request, "blog/home.html",{"username":user_name})
 
 
 ######################################################################################
@@ -104,6 +104,21 @@ class CommentDetailView(DetailView):
     model = Comment
     template_name = "blog/comment_detail.html"
     context_object_name = "comment"
+
+class CommentCreateView(LoginRequiredMixin,CreateView):
+    model = Comment
+    template_name = "blog/comment_create.html"
+    form_class = CommentForm
+    def form_valid(self, form):
+        post = get_object_or_404(Post, pk=self.kwargs["post_id"])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        post = get_object_or_404(Post, pk=self.kwargs["post_id"])
+        context = super().get_context_data(**kwargs)
+        context["post"] = post
+        return context
 
 class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Comment

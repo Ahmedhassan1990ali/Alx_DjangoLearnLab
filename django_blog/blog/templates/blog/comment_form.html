@@ -6,5 +6,6 @@
     {{ form.as_p }}
     <button type="submit">Update Comment</button>
   </form>
+  <br><br>
   <a href="{% url 'post_detail' object.post.pk %}">Cancel</a>
 {% endblock %}

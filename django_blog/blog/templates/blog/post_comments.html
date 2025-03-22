@@ -10,7 +10,7 @@
         <a href="{% url 'post_delete' post.pk %}">Delete</a>
     {% endif %}
 
-
+    <br><br>
     <h2>Comments</h2>
   {% for comment in post.comments.all %}
     <div>
@@ -23,7 +23,7 @@
   {% empty %}
     <p>No comments yet.</p>
   {% endfor %}
-  
+  <br><br>
   <hr>
   <h2>Add a Comment</h2>
   {% if user.is_authenticated %}
@@ -32,9 +32,10 @@
       {{ form.as_p }}
       <button type="submit">Post Comment</button>
     </form>
+    <a href="{% url 'comment_create' post_id=post.pk %}">Add a Comment in dedicated page</a>
   {% else %}
     <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
   {% endif %}
-
+  <br><br>
     <p><a href="{% url 'post_list' %}">Return to Posts <<<<</a></p>
 {% endblock %}

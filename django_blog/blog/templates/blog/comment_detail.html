@@ -1,7 +1,13 @@
 {% extends "blog/base.html" %}
 {% block content %}
-  <h1>Comment by {{ comment.author }}</h1>
-  <p>{{ comment.content }}</p>
-  <p>Posted on: {{ comment.post.title }}</p>
-  <a href="{% url 'post_detail' comment.post.pk %}">Back to Post</a>
+<h1>Comment by {{ comment.author }}</h1>
+<p>{{ comment.content }}</p>
+<p>Posted on: <a href="{% url 'post_detail' comment.post.pk %}">{{ comment.post.title }}</a></p>
+<br><br>
+<!-- Update and Delete Links -->
+<a href="{% url 'comment_update' post_id=comment.post.pk pk=comment.pk %}">Edit Comment</a> |
+<a href="{% url 'comment_delete' post_id=comment.post.pk pk=comment.pk %}">Delete Comment</a>
+
+<br><br>
+<a href="{% url 'post_detail' comment.post.pk %}">Back to Post</a>
 {% endblock %}

@@ -2,9 +2,12 @@
 
 {% block content %}
     <h2>All Blog Posts</h2>
+    <br><br>
     {% for post in posts %}
         <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
         <p>{{ post.content|truncatewords:20 }}</p>
+        <br>
     {% endfor %}
+    <br><br>
     <a href="{% url 'post_create' %}">Create New Post</a>
 {% endblock %}

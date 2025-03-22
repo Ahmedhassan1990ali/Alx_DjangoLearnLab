@@ -24,7 +24,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
-        return reverse('comment_detail', kwargs={'pk': self.pk,'post_id': self.post.id})    
+        return reverse('comment_detail', kwargs={'post_id': self.post.pk, 'pk': self.pk})
     
     def __str__(self):
         return self.content[:50]
