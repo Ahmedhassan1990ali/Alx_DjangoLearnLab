@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
     tags = forms.CharField(
         required=False,
         help_text="Enter tags separated by commas",
-        widget=TagWidget(attrs={'placeholder': 'e.g. django, python, web'})
+        widget=TagWidget()#attrs={'placeholder': 'e.g. django, python, web'}
     )
     class Meta:
         model = Post
