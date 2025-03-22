@@ -43,6 +43,6 @@ urlpatterns = [
     path('post/<int:post_id>/comment/<int:pk>/delete/',CommentDeleteView.as_view(), name="comment_delete"),
     # search rls
     path('search/', search_posts, name='search_posts'),
-    path('tag/<str:tag>/', TaggedPostListView.as_view(), name='tagged_posts'),
+    path('tag/<str:tag>/', TaggedPostListView.as_view(), name='tagged_posts'),#"tags/<slug:tag_slug>/", "PostByTagListView.as_view()"
 ]
 
