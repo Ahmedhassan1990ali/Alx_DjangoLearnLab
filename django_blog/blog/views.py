@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from blog.forms import ProfileUpdateForm, PostForm, CommentForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from blog.models import Post, Comment
+from blog.models import Post, Comment, Tag
 from django.urls import reverse_lazy
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -150,3 +150,33 @@ class CommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     def test_func(self):
         comment = self.get_object()
         return self.request.user == comment.author
+    
+#####################################################################################
+
+def search_posts(request):
+    query = request.GET.get('q', '')  
+    results = []
+
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |  
+            Q(content__icontains=query) |  
+            Q(taggit_tags__name__icontains=query)  
+        ).distinct()  
+    
+    return render(request, "blog/search_results.html", {"query": query, "results": results})
+
+class TaggedPostListView(ListView):
+    model = Post
+    template_name = 'blog/tagged_posts.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, name=self.kwargs['tag'])
+        return Post.objects.filter(taggit_tags__name__iexact=self.tag.name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context
+    

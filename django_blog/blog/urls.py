@@ -19,7 +19,7 @@ from django.contrib.auth.views import LoginView,LogoutView
 from blog.views import (register,profile,home,
                 PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
                 PostCommentsDetailView, CommentDetailView, CommentUpdateView, CommentDeleteView,
-                CommentCreateView
+                CommentCreateView, search_posts, TaggedPostListView
 )
 
 urlpatterns = [
@@ -41,5 +41,8 @@ urlpatterns = [
     path('post/<int:post_id>/comments/<int:pk>/',CommentDetailView.as_view(), name="comment_detail"),
     path('post/<int:post_id>/comment/<int:pk>/update/',CommentUpdateView.as_view(), name="comment_update"),
     path('post/<int:post_id>/comment/<int:pk>/delete/',CommentDeleteView.as_view(), name="comment_delete"),
+    # search rls
+    path('search/', search_posts, name='search_posts'),
+    path('tag/<str:tag>/', TaggedPostListView.as_view(), name='tagged_posts'),
 ]
 
