@@ -53,7 +53,10 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        post = form.save(commit=False)
+        post.author = self.request.user
+        post.save()
+        post.taggit_tags.set(form.cleaned_data['tags'])
         return super().form_valid(form)
     
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -62,11 +65,16 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = PostForm
     
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        post = form.save()
+        post.taggit_tags.set(form.cleaned_data['tags'])
         return super().form_valid(form)
     def test_func(self):
         post = self.get_object()
         return post.author == self.request.user
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['tags'] = ', '.join(self.object.taggit_tags.names())
+        return initial
     
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "blog/post_delete.html"
