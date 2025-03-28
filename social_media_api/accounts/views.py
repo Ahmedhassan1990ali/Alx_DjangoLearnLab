@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 
 # Create your views here.
 
@@ -38,8 +39,10 @@ class LoginAPIView(APIView):
 
 class ProfileAPIView(APIView):
     permission_classes = [IsAuthenticated]  
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request):
+        print("User:", request.user)
         user = request.user
         return Response({"user": CustomUserSerializer(user).data})
 

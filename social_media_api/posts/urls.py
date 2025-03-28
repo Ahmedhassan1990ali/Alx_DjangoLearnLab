@@ -14,8 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter 
+from posts.views import PostViewSet, CommenyViewSet
+
+router = DefaultRouter()
+router.register(r"posts",PostViewSet)
+router.register(r"comments",CommenyViewSet)
+
 
 urlpatterns = [
-    
+    path('',include(router.urls))
 ]
