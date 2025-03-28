@@ -19,6 +19,7 @@ class RegisterAPIView(APIView):
             token, created = Token.objects.get_or_create(user =user)
             return Response({"token":token.key,"user":CustomUserSerializer(user).data},
                             status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
         
 class LoginAPIView(APIView):
     permission_classes=[AllowAny]
