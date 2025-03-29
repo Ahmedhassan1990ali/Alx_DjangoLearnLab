@@ -27,6 +27,6 @@ router.register(r"comments",CommentViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('feed/',FeedAPIView.as_view(),name='feed_api'),
-    path('like/<int:post_id>/',LikeAPIView.as_view(),name='like_api'),
-    path('unlike/<int:post_id>/',UnlikeAPIView.as_view(),name="unlike_api"),
+    path('posts/<int:pk>/like/',LikeAPIView.as_view(),name='like_api'),
+    path('posts/<int:pk>/unlike/',UnlikeAPIView.as_view(),name="unlike_api"),
 ]

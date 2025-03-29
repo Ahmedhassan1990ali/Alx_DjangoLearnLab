@@ -57,12 +57,12 @@ class FeedAPIView(generics.ListAPIView):
     
 class LikeAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    def create(self, request, id, post_id):
+    def create(self, request, pk):
         user = request.user
-        post = get_object_or_404 (Post,id=post_id)
+        post = get_object_or_404 (Post,id=pk)
         if Like.objects.filter(user=user, post=post).exists():
             return Response({"message": "You already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
-        Like.objects.create(user=user,post=post)    
+        Like.objects.get_or_create(user=request.user, post=post)
         Notification.objects.create(
                 recipient=post.author,
                 actor=user,
@@ -74,10 +74,10 @@ class LikeAPIView(APIView):
 class UnlikeAPIView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def delete(self, request, post_id):
+    def delete(self, request, pk):
         user = request.user
-        post = get_object_or_404(Post, id=post_id)
-
+        post = generics.get_object_or_404(Post, pk=pk)
+        
         like = Like.objects.filter(user=user, post=post).first()
         if not like:
             return Response({"message": "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST)
