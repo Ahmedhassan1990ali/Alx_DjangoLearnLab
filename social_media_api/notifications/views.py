@@ -8,4 +8,4 @@ class NotificationListAPIViewView (generics.ListAPIView):
     serializer_class = NotificationSerializer
     permission_classes =[permissions.IsAuthenticated]
     def get_queryset(self):
-        Notification.objects.filter(recipent=self.request.user).order_by("-created_at")
+        Notification.objects.filter(recipient=self.request.user).order_by("-timestamp")

@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 # Create your models here.
 
 class Notification(models.Model):
-    recipent = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="notifications")
+    recipient = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="notifications")
     actor = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="notifications_sent")
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
