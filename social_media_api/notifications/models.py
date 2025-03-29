@@ -10,7 +10,7 @@ class Notification(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     target = GenericForeignKey("content_type", "object_id")
-    created_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     verb = models.CharField(max_length=255)
 
     def __str__(self):
