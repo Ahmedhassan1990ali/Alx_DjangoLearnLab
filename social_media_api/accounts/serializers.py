@@ -30,3 +30,9 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid username or password")
         data["user"] = user
         return data
+    
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["id","username","following","followers"]
+        read_only_fields = ["id","username","followers"]

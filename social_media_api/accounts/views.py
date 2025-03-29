@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework import status
+from rest_framework import status, generics, permissions
 from rest_framework.authentication import TokenAuthentication
 
 # Create your views here.
@@ -46,3 +46,26 @@ class ProfileAPIView(APIView):
         user = request.user
         return Response({"user": CustomUserSerializer(user).data})
 
+class FollowAPIView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    lookup_field = "id"
+
+    def post(self, request, id):
+        user_to_follow = self.get_object()
+        if user_to_follow == request.user:
+            return Response({"message":"you cannot follow yourself"},status=status.HTTP_400_BAD_REQUEST)
+        request.user.following.add(user_to_follow)
+        return Response({"message":f"you are following {user_to_follow.username}"},status=status.HTTP_200_OK)
+
+class UnFollowAPIView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    lookup_field = "id"
+
+    def post(self, request, id):
+        user_to_unfollow = self.get_object()
+        if user_to_unfollow == request.user:
+            return Response({"message":"you cannot unfollow yourself"},status=status.HTTP_400_BAD_REQUEST)
+        request.user.following.remove(user_to_unfollow)
+        return Response({"message":f"you unfollowed {user_to_unfollow.username}"},status=status.HTTP_200_OK)

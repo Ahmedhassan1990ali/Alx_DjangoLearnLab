@@ -21,7 +21,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-class CommenyViewSet(viewsets.ModelViewSet):
+class CommentViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Comment.objects.all()
