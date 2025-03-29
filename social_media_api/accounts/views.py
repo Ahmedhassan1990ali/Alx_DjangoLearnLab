@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status, generics, permissions
 from rest_framework.authentication import TokenAuthentication
+from notifications.models import Notification
 
 # Create your views here.
 
@@ -55,6 +56,11 @@ class FollowAPIView(generics.GenericAPIView):
         if user_to_follow == request.user:
             return Response({"message":"you cannot follow yourself"},status=status.HTTP_400_BAD_REQUEST)
         request.user.following.add(user_to_follow)
+        Notification.objects.create(
+            recipient=user_to_follow,
+            actor=request.user,
+            verb="started following you"
+        )
         return Response({"message":f"you are following {user_to_follow.username}"},status=status.HTTP_200_OK)
 
 class UnFollowAPIView(generics.GenericAPIView):
