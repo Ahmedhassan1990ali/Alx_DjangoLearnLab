@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate
 from accounts.models import CustomUser
-from accounts.serializers import CustomUserSerializer, LoginSerializer
+from accounts.serializers import CustomUserSerializer, LoginSerializer, FeedSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -49,10 +49,9 @@ class ProfileAPIView(APIView):
 class FollowAPIView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
-    lookup_field = "id"
-
-    def post(self, request, id):
-        user_to_follow = self.get_object()
+    
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(CustomUser, id =user_id)
         if user_to_follow == request.user:
             return Response({"message":"you cannot follow yourself"},status=status.HTTP_400_BAD_REQUEST)
         request.user.following.add(user_to_follow)
@@ -61,11 +60,18 @@ class FollowAPIView(generics.GenericAPIView):
 class UnFollowAPIView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
-    lookup_field = "id"
-
-    def post(self, request, id):
-        user_to_unfollow = self.get_object()
+    
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(CustomUser, id =user_id)
         if user_to_unfollow == request.user:
             return Response({"message":"you cannot unfollow yourself"},status=status.HTTP_400_BAD_REQUEST)
         request.user.following.remove(user_to_unfollow)
         return Response({"message":f"you unfollowed {user_to_unfollow.username}"},status=status.HTTP_200_OK)
+    
+class FeedView(generics.ListAPIView):
+    serializer_class = FeedSerializer
+    permission_classes = [permissions.IsAuthenticated] 
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.request.user)
+        return Response(serializer.data)

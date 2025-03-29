@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from accounts.views import (LoginAPIView, RegisterAPIView, ProfileAPIView,
-                            FollowAPIView, UnFollowAPIView,
+                            FollowAPIView, UnFollowAPIView, FeedView,
 )
 
 
@@ -25,6 +25,7 @@ urlpatterns = [
     path('register/',RegisterAPIView.as_view(),name="register_api"),
     path('login/',LoginAPIView.as_view(),name='login_api'),
     path('profile/',ProfileAPIView.as_view(),name='profile_api'),
-    path('follow/<int:id>/',FollowAPIView.as_view(),name='follow_api'),
-    path('unfollow/<int:id>/',UnFollowAPIView.as_view(),name='unfollow_api'),
+    path('follow/<int:user_id>/',FollowAPIView.as_view(),name='follow_api'),
+    path('unfollow/<int:user_id>/',UnFollowAPIView.as_view(),name='unfollow_api'),
+    path('feed/',FeedView.as_view(),name='feed_api'),
 ]

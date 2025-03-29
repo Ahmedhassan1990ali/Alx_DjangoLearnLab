@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, get_user_model
+from posts.models import Post
+from posts.serializers import PostSerializer
 
 CustomUser = get_user_model()
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -31,8 +33,13 @@ class LoginSerializer(serializers.Serializer):
         data["user"] = user
         return data
     
-class FollowSerializer(serializers.ModelSerializer):
+
+class FeedSerializer(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField()
     class Meta:
         model = CustomUser
-        fields = ["id","username","following","followers"]
-        read_only_fields = ["id","username","followers"]
+        fields = ["posts"]
+    def get_posts(self, obj):
+        followed_users = obj.following.all()
+        posts = Post.objects.filter(author__in=followed_users).order_by("-created_at")
+        return PostSerializer(posts, many=True).data 
