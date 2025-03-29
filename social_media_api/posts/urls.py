@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter 
-from posts.views import PostViewSet, CommentViewSet, FeedAPIView
+from posts.views import (PostViewSet, CommentViewSet, FeedAPIView,
+                         LikeAPIView, UnlikeAPIView) 
 
 router = DefaultRouter()
 router.register(r"posts",PostViewSet)
@@ -26,4 +27,6 @@ router.register(r"comments",CommentViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('feed/',FeedAPIView.as_view(),name='feed_api'),
+    path('like/<int:post_id>/',LikeAPIView.as_view(),name='like_api'),
+    path('unlike/<int:post_id>/',UnlikeAPIView.as_view(),name="unlike_api"),
 ]
