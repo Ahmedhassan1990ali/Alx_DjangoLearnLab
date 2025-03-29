@@ -34,12 +34,3 @@ class LoginSerializer(serializers.Serializer):
         return data
     
 
-class FeedSerializer(serializers.ModelSerializer):
-    posts = serializers.SerializerMethodField()
-    class Meta:
-        model = CustomUser
-        fields = ["posts"]
-    def get_posts(self, obj):
-        followed_users = obj.following.all()
-        posts = Post.objects.filter(author__in=followed_users).order_by("-created_at")
-        return PostSerializer(posts, many=True).data 

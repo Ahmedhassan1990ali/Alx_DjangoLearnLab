@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate
 from accounts.models import CustomUser
-from accounts.serializers import CustomUserSerializer, LoginSerializer, FeedSerializer
+from accounts.serializers import CustomUserSerializer, LoginSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -68,10 +68,3 @@ class UnFollowAPIView(generics.GenericAPIView):
         request.user.following.remove(user_to_unfollow)
         return Response({"message":f"you unfollowed {user_to_unfollow.username}"},status=status.HTTP_200_OK)
     
-class FeedView(generics.ListAPIView):
-    serializer_class = FeedSerializer
-    permission_classes = [permissions.IsAuthenticated] 
-
-    def list(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.request.user)
-        return Response(serializer.data)

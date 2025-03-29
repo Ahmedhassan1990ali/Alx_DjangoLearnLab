@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from posts.models import Post, Comment
+from accounts.models import CustomUser
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,5 +15,15 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ["id","post","author","content","created_at","updated_at"]
         read_only_fields = ["id","author","created_at","updated_at"]
+
+class FeedSerializer(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField()
+    class Meta:
+        model = CustomUser
+        fields = ["posts"]
+    def get_posts(self, obj):
+        followed_users = obj.following.all()
+        posts = Post.objects.filter(author__in=followed_users).order_by("-created_at")
+        return PostSerializer(posts, many=True).data 
 
 
